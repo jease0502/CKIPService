@@ -1,4 +1,5 @@
-ckiptagger
 uvicorn[standard]
 fastapi
 python-multipart
+gensim==3.8.1
+python-Levenshtein

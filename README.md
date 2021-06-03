@@ -1,8 +1,11 @@
-# CKIP Service
-Docker compose for [ckiplab/ckiptagger](https://github.com/ckiplab/ckiptagger)
+# W2V Service
 
-## Preparation
-- [Download model files](https://github.com/ckiplab/ckiptagger#1-download-model-files) and put into `data` folder
+此份是根據 https://github.com/jyhsu2000/CKIPService 進行修改
+
+所輸入之單字必須為在資料庫中之單詞，單詞資料可查看 vol.txt
+
+W2V 使用 搜狐實驗室 所提供之資料，進行訓練後之模型，拿來做為預測使用
+- [資料網址](http://www.sogou.com/labs/resource/cs.php)
 
 ## Start service
 1. Start the service using `docker-compose`
@@ -13,7 +16,7 @@ Docker compose for [ckiplab/ckiptagger](https://github.com/ckiplab/ckiptagger)
     ```
     docker-compose up --build -d
     ```
-2. Service is now on port `5005`
+2. Service is now on port `4088`
 
 ## Stop service
 1. Stop the service using `docker-compose`
@@ -28,29 +31,7 @@ Docker compose for [ckiplab/ckiptagger](https://github.com/ckiplab/ckiptagger)
     - parameter
         - `sentence_list`: sentence list for CKIP tagging, split multiple sentences by linebreak(`\n`)
 
-## Test CKIP Tagger
+## Test W2V
 1. Send request using curl
     ``` bash
-    curl -X POST localhost:5005 -F $'sentence_list=土地公有政策?？還是土地婆有政策。.\n最多容納59,000個人,或5.9萬人,再多就不行了.這是環評的結論.'
-    ```
-2. Get the response like the following one
-    ```
-    土地公(Nb)　有(V_2)　政策(Na)　?(QUESTIONCATEGORY)　？(QUESTIONCATEGORY)　還是(Caa)　土地(Na)　婆(Na)　有(V_2)　政策(Na)　。(PERIODCATEGORY)　.(PERIODCATEGORY)　
-    (0, 3, 'PERSON', '土地公')
-
-    最多(VH)　容納(VJ)　59,000(Neu)　個(Nf)　人(Na)　,(COMMACATEGORY)　或(Caa)　5.9萬(Neu)　人(Na)　,(COMMACATEGORY)　再(D)　多(D)　就(D)　不行(VH)　了(T)　.(PERIODCATEGORY)　這(Nep)　是(SHI)　環評(Na)　的(DE)　結論(Na)　.(PERIODCATEGORY)　
-    (4, 10, 'CARDINAL', '59,000')
-    (14, 18, 'CARDINAL', '5.9萬')
-    ```
-
-## Alternative
-If you want to run this service without Docker, you can follow this steps after `data` folder is ready.  
-However, **we highly recommend using Docker Compose**.
-1. Install required packages
-    ```bash
-    pip3 install -r requirements.txt
-    ```
-2. Run
-    ```bash
-    python3 ckip_service.py
-    ```
+    curl -X POST localhost:4088 -F $'sentence_list=閱讀'
